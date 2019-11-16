@@ -2,9 +2,9 @@ import os
 from flask import Blueprint, flash, request, redirect, url_for
 from api_utils import fancy_filename
 
-api_blueprint = Blueprint('api', __name__)
+api = Blueprint('api', __name__)
 
-@api_blueprint.route('/file', methods=['POST'])
+@api.route('/api/file', methods=['POST'])
 def file_receiver():
     # Checking if file is attached
     if 'file' not in request.files:

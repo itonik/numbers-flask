@@ -1,0 +1,63 @@
+<!-- Jinja template -->
+<!DOCTYPE html>
+<html>
+
+<style>
+.filename-header {
+    margin:auto;
+    text-align: center;
+}
+.container {
+    max-width: 60rem;
+    margin: auto;
+    text-align: center;
+}
+.container-header {
+    font-family:Arial, Helvetica, sans-serif;
+    background-color:steelblue;
+    text-align: center;
+    height:2rem;
+    padding-top: 0.7rem;
+}
+.segment {
+    max-width: 20rem;
+    max-height: 60rem;
+}
+.segments-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+</style>
+
+<div class='filename-header'>{% print(filename) %}</div>
+
+<div class="container" id="source-container">
+    <div class="container-header">Source image:</div>
+    <div class='source-image'>
+        <img src="/uploads/{% print(filename) %}" width="100%"/>
+    </div>
+</div>
+
+<div class="container" id="filtered-container">
+    <div class="container-header">Filtered image:</div>
+    <div class='source-image'>
+        <img src="/uploads/{% print(filtered_image_name) %}" width="100%"/>
+    </div>
+</div>
+
+<div class="container" id="segments-container">
+    <div class="container-header">Segments with numbers:</div>
+    <div class="segments-container">
+        {% for (segment, result) in segments_and_results: %}
+        <div class="segment">
+            <img src="/intermediate/{% print(segment) %}" width="100%"/>
+            <div class="recognition-result">
+                {% print(result) %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</html>
