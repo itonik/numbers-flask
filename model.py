@@ -17,5 +17,4 @@ def process_image(filename):
     recognition.filter(res.source, res.filter)
     recognition.segment(res.filter, res.contour, res.create_segments_list)
     res.recognition = recognition.numbers_recognition(res.segments)
-
     return res
