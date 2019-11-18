@@ -3,6 +3,7 @@ from flask import Flask
 from view import view
 from api import api
 from static import static
+import webbrowser
 
 app = Flask(__name__)
 
@@ -12,4 +13,5 @@ app.register_blueprint(api)
 app.register_blueprint(static)
 
 if (__name__) == "__main__":
-    app.run(debug=True)
+    # webbrowser.open_new('localhost:5000')
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -13,12 +13,13 @@ def index():
 
 @view.route('/file/<filename>')
 def file_processor(filename):
-    filtered_image_name, segment_image_names, recognition_results = process_image(filename)
+    res = process_image(filename)
     # TODO: Debug is here!
     return render_template(
         'processor.html',
-        filename=filename,
-        filtered_image_name=filename,
+        filename=res.source,
+        filtered_image_name=res.filter,
+        contours_image_name=res.contour,
         #segments_and_results=zip(segment_image_names, recognition_results)
-        segments_and_results=zip([filename] * 7, list(range(7)))
+        segments_and_results=zip(res.segments, res.recognition)
     )

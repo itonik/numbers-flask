@@ -20,4 +20,4 @@ def file_receiver():
     file.save(os.path.join('uploads', filename))
 
     # In the future should return redirect
-    return 'OK', 200
+    return redirect('/')
