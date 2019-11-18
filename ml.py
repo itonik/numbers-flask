@@ -5,7 +5,7 @@ import pickle
 import pandas as pd
 import numpy as np
 import cv2
-from recognition_utils import del_null_cols del_null_rows to_mnist
+from recognition_utils import del_null_cols, del_null_rows, to_mnist
 
 try:
     clf = pickle.load(open("clf.p", "rb"))

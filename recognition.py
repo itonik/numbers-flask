@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from ml import clf
-from recognition_utils import del_null_cols del_null_rows to_mnist
+from recognition_utils import del_null_cols, del_null_rows, to_mnist
 
 def _backround_stats(image):
     top = np.min(image[0][:])
