@@ -3,33 +3,40 @@
 <html>
 
 <style>
-.uploader, .directory-browser {
+.uploader, .directory-browser, .qr-container {
     max-width: 30rem;
     width: 100%;
     background-color: lightgray;
     font-size: large;
     margin: auto;
     margin-top: 2rem;
+    padding-bottom: 1rem;
 }
 .uploader {
     text-align: center;
 }
-.directory-browser-header, .upload-header {
+.directory-browser-header, .upload-header, .qr-container-header {
     font-family:Arial, Helvetica, sans-serif;
     background-color:steelblue;
     text-align: center;
     height:2rem;
     padding-top: 0.7rem;
+    margin-bottom: 1rem;
 }
 .files-container {
     margin-left: 2rem;
+}
+.qr {
+    display: block;
+    margin: 1rem auto;
+    
 }
 </style>
 
 <div class="uploader">
 <form method="post" action="/api/file" enctype="multipart/form-data">
     <div>
-        <div class="upload-header"><label for="file">Upload photo</label></div>
+        <div class="upload-header"><label for="file" id='lab'>Upload photo</label></div>
         <input type="file" id="file" name="file">
     </div>
     <div>
@@ -49,4 +56,8 @@
 </div>
 </div>
 
+<div class=qr-container>
+<div class="qr-container-header">QR</div>
+    <img src="/qr.png" width='90%' class='qr'/>
+</div>
 </html>

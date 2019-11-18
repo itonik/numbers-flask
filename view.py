@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, abort
 from jinja2 import TemplateNotFound
 from api_utils import get_files_in_directory
 from model import process_image
+from api_utils import get_local_ip
 
 # This file contains frontend templates logiс
 

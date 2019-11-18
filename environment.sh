@@ -8,7 +8,7 @@ set -e
 if [ ! -d "./venv" ]; then
     echo "No venv found. Creating..."
     python3 -m venv venv
-    python3 -m pip install Flask opencv-python sklearn pandas
+    python3 -m pip install Flask opencv-python sklearn pandas 'qrcode[pil]'
 fi
 
 # venv can be activated by:
