@@ -3,6 +3,29 @@ import numpy as np
 
 # Shared code between recognition and ml package
 
+def reshape_to_fit(image):
+    f = cv2.findNonZero(image.astype(np.uint8))
+    x, y, w, h = cv2.boundingRect(f)
+    image = image[y:y+h, x:x+w]
+    if w > h:
+        image = cv2.resize(image, (28, int(28 * image.shape[0]/image.shape[1])))
+        empty_t = int(np.floor((float(28) - image.shape[0]) / 2))
+        new_image = np.zeros((28,28), dtype=np.uint8)
+        for y in range(image.shape[0]):
+            for x in range(image.shape[1]):
+                new_image[empty_t+y,x] = image[y,x]
+        return new_image
+    else:
+        #print(image.shape, (int(28*image.shape[1]/image.shape[0]), 28))
+        image = cv2.resize(image, (int(28*image.shape[1]/image.shape[0]), 28))
+        empty_l = int(np.floor((float(28) - image.shape[1]) / 2))
+        new_image = np.zeros((28,28), dtype=np.uint8)
+        for y in range(image.shape[0]):
+            for x in range(image.shape[1]):
+                new_image[y,empty_l+x] = image[y,x]
+        return new_image
+    return image
+
 def del_null_rows(im, bg_col = 255):
     null_row = [np.all(im[i,:] == bg_col) for i in range(im.shape[0])]
     if False in null_row:
@@ -52,4 +75,6 @@ def to_mnist(im):
         if im.shape[0]!= im.shape[1]:
             im = np.concatenate((im, np.zeros((1,im.shape[1]))), axis=0)
     im = cv2.resize(im, (28,28))
+    ii = np.int8(((im.copy()+1) * 255))
+    cv2.imwrite('gg.png', ii)
     return im

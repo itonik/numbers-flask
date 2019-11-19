@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from ml import clf
-from recognition_utils import del_null_cols, del_null_rows, to_mnist
+from recognition_utils import del_null_cols, del_null_rows, to_mnist, reshape_to_fit
 
 def _backround_stats(image):
     top = np.min(image[0][:])
@@ -12,7 +12,7 @@ def _backround_stats(image):
 
 def _contour_filter(contour):
     x, y, w, h = cv2.boundingRect(contour)
-    if w * h < 20:
+    if w < 20 or h < 20:
         return False
     else:
         return True
@@ -49,7 +49,11 @@ def segment(src_path, contour_dst_path, segments_dst_path_builder):
     contours, hierarchy = cv2.findContours(working_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = [c for c in contours if _contour_filter(c)]
     # contours_image - image for demonstration
-    contours_image = cv2.drawContours(contours_image, contours, -1, (0,255,0), 2, cv2.LINE_AA, hierarchy, 1)
+    print(hierarchy)
+    try:
+        contours_image = cv2.drawContours(contours_image, contours, -1, (0,255,0), 2, cv2.LINE_AA, hierarchy, 1)
+    except Exception:
+        pass
     segments = []
     for c in contours:
         x, y, w, h = cv2.boundingRect(c)
@@ -61,13 +65,15 @@ def segment(src_path, contour_dst_path, segments_dst_path_builder):
 
 def numbers_recognition(src_paths):
     imgs = []
-    for path in src_paths:
-        imgs.append(to_mnist(cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2GRAY)))
-    test = np.zeros(shape=(len(imgs),784))
-    for i, num in enumerate(imgs):
-        num = np.reshape(num,784)
-        test[i] = num * 255
-        results = clf.predict(test)
+    #flatten = (lambda x: (reshape_to_fit(i)-255).reshape(1,28*28))
+    imgs = np.zeros(shape=(len(src_paths),784))
+    for i, path in enumerate(src_paths):
+        img = cv2.imread(path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) - 255
+        img = reshape_to_fit(img)
+        img = img.reshape(1,28*28)
+        imgs[i] = img * 255 # WTF? Doesn`t work without it 
+    #test = np.zeros(shape=(len(imgs),784))
+    #test = np.array([])
+    results = clf.predict(imgs)
     return results
-
-        
